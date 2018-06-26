@@ -60,8 +60,7 @@ For the full set of possible parameters, you can run
 you would run:
 
 ```
-python tensorrt.py --frozen_graph=resnetv2_imagenet_frozen_graph.pb \
-  --image_file=image.jpg --native --fp32 --fp16 --int8 --output_dir=/my/output
+$ bash tensorrt.sh
 ```
 
 This will print the predictions for each of the precision modes that were run
@@ -83,24 +82,24 @@ which includes the timing information for each of the models:
 
 ```
 ==========================
-network: native_resnetv2_imagenet_frozen_graph.pb,	 batchsize 128, steps 3
-  fps 	median: 930.2, 	mean: 934.9, 	uncertainty: 5.9, 	jitter: 3.3
-  latency 	median: 0.13760, 	mean: 0.13692, 	99th_p: 0.13793, 	99th_uncertainty: 0.00271
+network: native_frozen_resnet_v2_50.pb,	 batchsize 128, steps 3
+  fps 	median: 627.5, 	mean: 628.8, 	uncertainty: 2.7, 	jitter: 3.7
+  latency 	median: 0.20400, 	mean: 0.20356, 	99th_p: 0.20479, 	99th_uncertainty: 0.00078
 
 ==========================
-network: tftrt_fp32_resnetv2_imagenet_frozen_graph.pb,	 batchsize 128, steps 3
-  fps 	median: 1160.2, 	mean: 1171.8, 	uncertainty: 18.0, 	jitter: 17.8
-  latency 	median: 0.11033, 	mean: 0.10928, 	99th_p: 0.11146, 	99th_uncertainty: 0.00110
+network: tftrt_fp32_frozen_resnet_v2_50.pb,	 batchsize 128, steps 3
+  fps 	median: 855.2, 	mean: 866.1, 	uncertainty: 11.6, 	jitter: 2.3
+  latency 	median: 0.14967, 	mean: 0.14784, 	99th_p: 0.14993, 	99th_uncertainty: 0.00033
 
 ==========================
-network: tftrt_fp16_resnetv2_imagenet_frozen_graph.pb,	 batchsize 128, steps 3
-  fps 	median: 2007.2, 	mean: 2007.4, 	uncertainty: 0.4, 	jitter: 0.7
-  latency 	median: 0.06377, 	mean: 0.06376, 	99th_p: 0.06378, 	99th_uncertainty: 0.00001
+network: tftrt_fp16_frozen_resnet_v2_50.pb,	 batchsize 128, steps 3
+  fps 	median: 1093.1, 	mean: 1099.0, 	uncertainty: 8.2, 	jitter: 6.5
+  latency 	median: 0.11710, 	mean: 0.11649, 	99th_p: 0.11756, 	99th_uncertainty: 0.00044
 
 ==========================
-network: tftrt_int8_resnetv2_imagenet_frozen_graph.pb,	 batchsize 128, steps 3
-  fps 	median: 2970.2, 	mean: 2971.4, 	uncertainty: 109.8, 	jitter: 279.4
-  latency 	median: 0.04309, 	mean: 0.04320, 	99th_p: 0.04595, 	99th_uncertainty: 0.00286
+network: tftrt_int8_frozen_resnet_v2_50.pb,	 batchsize 128, steps 3
+  fps 	median: 864.3, 	mean: 872.2, 	uncertainty: 9.2, 	jitter: 3.9
+  latency 	median: 0.14809, 	mean: 0.14679, 	99th_p: 0.14853, 	99th_uncertainty: 0.00481
 ```
 
 The script will also output the GraphDefs used for each of the modes run,
@@ -109,10 +108,10 @@ for future use and inspection:
 ```
 ls /my/output
 log.txt
-tftrt_fp16_resnetv2_imagenet_frozen_graph.pb
-tftrt_fp32_resnetv2_imagenet_frozen_graph.pb
-tftrt_int8_calib_resnetv2_imagenet_frozen_graph.pb
-tftrt_int8_resnetv2_imagenet_frozen_graph.pb
+tftrt_fp16_frozen_resnetv2_v2_50.pb
+tftrt_fp32__frozen_resnetv2_v2_50.pb
+tftrt_int8_calib__frozen_resnetv2_v2_50.pb
+tftrt_int8__frozen_resnetv2_v2_50.pb
 ```
 
 ## Troubleshooting and Notes
