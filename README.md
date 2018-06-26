@@ -31,7 +31,6 @@ Maintainers of TF-slim:
 <a href='#Data'>Preparing the datasets</a><br>
 <a href='#Pretrained'>Using pre-trained models</a><br>
 <a href='#Training'>Training from scratch</a><br>
-<a href='#Tuning'>Fine tuning to a new task</a><br>
 <a href='#Eval'>Evaluating performance</a><br>
 <a href='#Export'>Exporting Inference Graph</a><br>
 <a href='#Troubleshooting'>Troubleshooting</a><br>
