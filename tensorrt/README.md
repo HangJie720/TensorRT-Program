@@ -1,4 +1,4 @@
-# Running the TensorFlow Official ResNet with TensorRT
+# Running the TensorFlow Official ResNet_v2_50 and VGG_19 with TensorRT
 
 [TensorRT](https://developer.nvidia.com/tensorrt) is NVIDIA's inference
 optimizer for deep learning. Briefly, TensorRT rewrites parts of the
