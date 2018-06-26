@@ -23,8 +23,8 @@ We provide some results below, as well as instructions for running this script.
 already, and add the Official Models to your Python path:
 
 ```
-git clone https://github.com/tensorflow/models.git
-export PYTHONPATH="$PYTHONPATH:/path/to/models"
+$ git clone https://github.com/tensorflow/models.git
+$ export PYTHONPATH="$PYTHONPATH:/path/to/models"
 ```
 
 ### Step 2: Get a model to test
