@@ -280,15 +280,15 @@ All 16 float MobileNet V1 models reported in the [MobileNet Paper](https://arxiv
 
 (\*): Results quoted from the [paper](https://arxiv.org/abs/1603.05027).
 
-Here is an example of how to download the Inception V3 checkpoint:
+Here is an example of how to download the ResNet_V2_50 checkpoint:
 
 ```shell
 $ CHECKPOINT_DIR=/tmp/checkpoints
 $ mkdir ${CHECKPOINT_DIR}
-$ wget http://download.tensorflow.org/models/inception_v3_2016_08_28.tar.gz
-$ tar -xvf inception_v3_2016_08_28.tar.gz
-$ mv inception_v3.ckpt ${CHECKPOINT_DIR}
-$ rm inception_v3_2016_08_28.tar.gz
+$ wget http://download.tensorflow.org/models/resnet_v2_50_2017_04_14.tar.gz
+$ tar -xvf resnet_v2_50_2017_04_14.tar.gz
+$ mv resnet_v2_50.ckpt ${CHECKPOINT_DIR}
+$ rm resnet_v2_50_2017_04_14.tar.gz
 ```
 
 
@@ -321,61 +321,6 @@ tensorboard --logdir=${TRAIN_DIR}
 ```
 
 Once TensorBoard is running, navigate your web browser to http://localhost:6006.
-
-# Fine-tuning a model from an existing checkpoint
-<a id='Tuning'></a>
-
-Rather than training from scratch, we'll often want to start from a pre-trained
-model and fine-tune it.
-To indicate a checkpoint from which to fine-tune, we'll call training with
-the `--checkpoint_path` flag and assign it an absolute path to a checkpoint
-file.
-
-When fine-tuning a model, we need to be careful about restoring checkpoint
-weights. In particular, when we fine-tune a model on a new task with a different
-number of output labels, we wont be able restore the final logits (classifier)
-layer. For this, we'll use the `--checkpoint_exclude_scopes` flag. This flag
-hinders certain variables from being loaded. When fine-tuning on a
-classification task using a different number of classes than the trained model,
-the new model will have a final 'logits' layer whose dimensions differ from the
-pre-trained model. For example, if fine-tuning an ImageNet-trained model on
-Flowers, the pre-trained logits layer will have dimensions `[2048 x 1001]` but
-our new logits layer will have dimensions `[2048 x 5]`. Consequently, this
-flag indicates to TF-Slim to avoid loading these weights from the checkpoint.
-
-Keep in mind that warm-starting from a checkpoint affects the model's weights
-only during the initialization of the model. Once a model has started training,
-a new checkpoint will be created in `${TRAIN_DIR}`. If the fine-tuning
-training is stopped and restarted, this new checkpoint will be the one from
-which weights are restored and not the `${checkpoint_path}$`. Consequently,
-the flags `--checkpoint_path` and `--checkpoint_exclude_scopes` are only used
-during the `0-`th global step (model initialization). Typically for fine-tuning
-one only want train a sub-set of layers, so the flag `--trainable_scopes` allows
-to specify which subsets of layers should trained, the rest would remain frozen.
-
-Below we give an example of
-[fine-tuning inception-v3 on flowers](https://github.com/tensorflow/models/blob/master/research/slim/scripts/finetune_inception_v3_on_flowers.sh),
-inception_v3  was trained on ImageNet with 1000 class labels, but the flowers
-dataset only have 5 classes. Since the dataset is quite small we will only train
-the new layers.
-
-
-```shell
-$ DATASET_DIR=/tmp/flowers
-$ TRAIN_DIR=/tmp/flowers-models/inception_v3
-$ CHECKPOINT_PATH=/tmp/my_checkpoints/inception_v3.ckpt
-$ python train_image_classifier.py \
-    --train_dir=${TRAIN_DIR} \
-    --dataset_dir=${DATASET_DIR} \
-    --dataset_name=flowers \
-    --dataset_split_name=train \
-    --model_name=inception_v3 \
-    --checkpoint_path=${CHECKPOINT_PATH} \
-    --checkpoint_exclude_scopes=InceptionV3/Logits,InceptionV3/AuxLogits \
-    --trainable_scopes=InceptionV3/Logits,InceptionV3/AuxLogits
-```
-
-
 
 # Evaluating performance of a model
 <a id='Eval'></a>
