@@ -300,7 +300,7 @@ The following example demonstrates how to train Inception V3 using the default
 parameters on the ImageNet dataset.
 
 ```shell
-bash train.sh
+$ bash train.sh
 ```
 
 This process may take several days, depending on your hardware setup.
@@ -316,7 +316,7 @@ To visualize the losses and other metrics during training, you can use
 by running the command below.
 
 ```shell
-tensorboard --logdir=${TRAIN_DIR}
+$ tensorboard --logdir=${TRAIN_DIR}
 ```
 
 Once TensorBoard is running, navigate your web browser to http://localhost:6006.
