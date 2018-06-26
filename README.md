@@ -301,14 +301,7 @@ The following example demonstrates how to train Inception V3 using the default
 parameters on the ImageNet dataset.
 
 ```shell
-DATASET_DIR=/tmp/imagenet
-TRAIN_DIR=/tmp/train_logs
-python train_image_classifier.py \
-    --train_dir=${TRAIN_DIR} \
-    --dataset_name=imagenet \
-    --dataset_split_name=train \
-    --dataset_dir=${DATASET_DIR} \
-    --model_name=inception_v3
+bash train.sh
 ```
 
 This process may take several days, depending on your hardware setup.
@@ -394,14 +387,7 @@ Below we give an example of downloading the pretrained inception model and
 evaluating it on the imagenet dataset.
 
 ```shell
-CHECKPOINT_FILE = ${CHECKPOINT_DIR}/inception_v3.ckpt  # Example
-$ python eval_image_classifier.py \
-    --alsologtostderr \
-    --checkpoint_path=${CHECKPOINT_FILE} \
-    --dataset_dir=${DATASET_DIR} \
-    --dataset_name=imagenet \
-    --dataset_split_name=validation \
-    --model_name=inception_v3
+$ bash evaluate.sh
 ```
 
 See the [evaluation module example](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim#evaluation-loop)
@@ -415,16 +401,7 @@ Saves out a GraphDef containing the architecture of the model.
 To use it with a model name defined by slim, run:
 
 ```shell
-$ python export_inference_graph.py \
-  --alsologtostderr \
-  --model_name=inception_v3 \
-  --output_file=/tmp/inception_v3_inf_graph.pb
-
-$ python export_inference_graph.py \
-  --alsologtostderr \
-  --model_name=mobilenet_v1 \
-  --image_size=224 \
-  --output_file=/tmp/mobilenet_v1_224.pb
+$ bash export.sh
 ```
 
 ## Freezing the exported Graph
@@ -433,42 +410,8 @@ checkpoints as part of a mobile model, you can run freeze_graph to get a graph
 def with the variables inlined as constants using:
 
 ```shell
-bazel build tensorflow/python/tools:freeze_graph
-
-bazel-bin/tensorflow/python/tools/freeze_graph \
-  --input_graph=/tmp/inception_v3_inf_graph.pb \
-  --input_checkpoint=/tmp/checkpoints/inception_v3.ckpt \
-  --input_binary=true --output_graph=/tmp/frozen_inception_v3.pb \
-  --output_node_names=InceptionV3/Predictions/Reshape_1
+$ bash freeze.sh
 ```
-
-The output node names will vary depending on the model, but you can inspect and
-estimate them using the summarize_graph tool:
-
-```shell
-bazel build tensorflow/tools/graph_transforms:summarize_graph
-
-bazel-bin/tensorflow/tools/graph_transforms/summarize_graph \
-  --in_graph=/tmp/inception_v3_inf_graph.pb
-```
-
-## Run label image in C++
-
-To run the resulting graph in C++, you can look at the label_image sample code:
-
-```shell
-bazel build tensorflow/examples/label_image:label_image
-
-bazel-bin/tensorflow/examples/label_image/label_image \
-  --image=${HOME}/Pictures/flowers.jpg \
-  --input_layer=input \
-  --output_layer=InceptionV3/Predictions/Reshape_1 \
-  --graph=/tmp/frozen_inception_v3.pb \
-  --labels=/tmp/imagenet_slim_labels.txt \
-  --input_mean=0 \
-  --input_std=255
-```
-
 
 # Troubleshooting
 <a id='Troubleshooting'></a>
