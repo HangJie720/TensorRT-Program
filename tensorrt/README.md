@@ -113,7 +113,16 @@ tftrt_fp32__frozen_resnetv2_v2_50.pb
 tftrt_int8_calib__frozen_resnetv2_v2_50.pb
 tftrt_int8__frozen_resnetv2_v2_50.pb
 ```
+Almost no accuracy loss at Native/FP32/FP16/INT8 presicion model from TensorRT.
+```
+CNNs              Accuracy       Native        FP32        FP16       INT8      Difference
+ResNet-50          Top-1         80.94%       80.94%      80.93%     80.94%       -0.01%
+                   Top-5         94.85%       94.85%      94.87%     94.85%       +0.02%
+============================================================================================
+VGG-19             Top-1         77.50%       77.50%      77.50%     77.50%        0.00%
+                   Top-5         93.38%       93.38%      93.38%     93.38%        0.00%
 
+```
 ## Troubleshooting and Notes
 
 ### GPU/Precision Compatibility
